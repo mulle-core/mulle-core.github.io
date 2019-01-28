@@ -1,7 +1,7 @@
 # mulle-core
 
 The mulle-core library collection is written for C11. It is based on
-[mulle-concurrent](//github.com/mulle-concurrent) and based on
+[mulle-concurrent](//github.com/mulle-concurrent) and 
 [mulle-c](//github.com/mulle-c). 
 
 *mulle-core* provides functionality that is outside of the C standard libraries
