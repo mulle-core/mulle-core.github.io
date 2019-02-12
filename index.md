@@ -2,10 +2,11 @@
 
 The mulle-core library collection is written for C11.
 
-*mulle-core* provides functionality that is outside of the C standard libraries
-but doesn't provide concurrency support. So it's a grabbag of libraries, that
-is set to grow and that might be reorganized into more topical library 
-collections when the need arised.
+*mulle-core* provides functionality that is outside of the C standard libraries.
+These libraries are not strictly concerned with concurrency like mulle-concurrent is,
+but may use features of mulle-concurrent. So *mulle-core* is a grabbag of libraries, that
+is set to grow and that might get reorganized into more topical library 
+collections later on.
 
 Library                                                             | Description
 --------------------------------------------------------------------|----------------------
