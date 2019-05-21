@@ -10,6 +10,7 @@ collections later on.
 
 Library                                                             | Description
 --------------------------------------------------------------------|----------------------
+[mulle-atexit](//github.com/mulle-core/mulle-atexit)                | A workaround for deficient c-library implementations
 [mulle-sprintf](//github.com/mulle-core/mulle-sprintf)              | An extensible sprintf function supporting stdarg and mulle-vararg
 [mulle-stacktrace](//github.com/mulle-core/mulle-stacktrace)        | Stracktrace support for various OS 
 [mulle-testallocator](//github.com/mulle-core/mulle-testallocator)  | C memory leak and double free checking
