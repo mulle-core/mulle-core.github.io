@@ -10,6 +10,7 @@ collections later on.
 
 Library                                                             | Description
 --------------------------------------------------------------------|----------------------
+[mulle-atinit](//github.com/mulle-core/mulle-atinit)                | A workaround for non-determinisic shared library loaders
 [mulle-atexit](//github.com/mulle-core/mulle-atexit)                | A workaround for deficient c-library implementations
 [mulle-sprintf](//github.com/mulle-core/mulle-sprintf)              | An extensible sprintf function supporting stdarg and mulle-vararg
 [mulle-stacktrace](//github.com/mulle-core/mulle-stacktrace)        | Stracktrace support for various OS 
