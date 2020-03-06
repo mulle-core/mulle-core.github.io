@@ -12,6 +12,7 @@ Library                                                             | Descriptio
 --------------------------------------------------------------------|----------------------
 [mulle-atinit](//github.com/mulle-core/mulle-atinit)                | A workaround for non-determinisic shared library loaders
 [mulle-atexit](//github.com/mulle-core/mulle-atexit)                | A workaround for deficient c-library implementations
+[mulle-dlfcn](//github.com/mulle-core/mulle-dlfcn)                  | A wrapper for cross-plaftform dlopen, dlsysm operations
 [mulle-sprintf](//github.com/mulle-core/mulle-sprintf)              | An extensible sprintf function supporting stdarg and mulle-vararg
 [mulle-stacktrace](//github.com/mulle-core/mulle-stacktrace)        | Stracktrace support for various OS 
 [mulle-testallocator](//github.com/mulle-core/mulle-testallocator)  | C memory leak and double free checking
