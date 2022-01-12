@@ -14,9 +14,11 @@ Library                                                             | Descriptio
 [mulle-atexit](//github.com/mulle-core/mulle-atexit)                | A workaround for deficient c-library implementations
 [mulle-dlfcn](//github.com/mulle-core/mulle-dlfcn)                  | A wrapper for cross-plaftform dlopen, dlsysm operations
 [mulle-mmap](//github.com/mulle-core/mulle-mmap)                    | Memory mapped file access, cross-platform 
+[mulle-fprintf](//github.com/mulle-core/mulle-fprintf)              | mulle-fprintf marries mulle-sprintf with &lt;stdio.h&gt;
 [mulle-sprintf](//github.com/mulle-core/mulle-sprintf)              | An extensible sprintf function supporting stdarg and mulle-vararg
 [mulle-stacktrace](//github.com/mulle-core/mulle-stacktrace)        | Stracktrace support for various OS 
 [mulle-testallocator](//github.com/mulle-core/mulle-testallocator)  | C memory leak and double free checking
+[mulle-time](//github.com/mulle-core/mulle-time)                    | Small abstraction over platform clocks and time types
 
 
 *mulle-core* is based on [mulle-concurrent](//github.com/mulle-concurrent) and 
