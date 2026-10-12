@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <title>mulle-core — The C standard library you wish existed</title>
+   <meta name="description" content="mulle-core combines 30 C libraries for containers, Unicode, regex, HTTP parsing, time and lock-free concurrency into one library with one header and one link flag. Add it to any CMake project.">
+   <meta name="keywords" content="C, C library, lock-free, wait-free, concurrency, hashmap, ABA problem, unicode, UTF-8, regex, amalgamation, cross-platform, CMake, socket, process spawning, mulle-core, mulle-c, mulle-concurrent">
+   <meta name="robots" content="index,follow">
+   <meta name="author" content="Mulle kybernetiK (Nat!)">
+
+   <!-- social -->
+   <meta property="og:title" content="mulle-core — The C standard library you wish existed">
+   <meta property="og:description" content="30 C libraries, one header, one link flag. Lock-free concurrency included.">
+   <meta property="og:type" content="website">
+   <meta property="og:url" content="https://mulle-core.github.io/">
+   <meta property="og:site_name" content="mulle-core">
+   <meta name="twitter:card" content="summary">
+   <meta name="twitter:title" content="mulle-core — The C standard library you wish existed">
+   <meta name="twitter:description" content="30 C libraries, one header, one link flag. Lock-free concurrency included.">
+
+   <!-- LLM-friendly pointers -->
+   <link rel="llms" href="llms.txt" title="llms.txt for mulle-core">
+   <link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt for mulle-core">
+
+   <link rel="stylesheet" href="style.css">
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
+
+   <!-- structured data for machines -->
+   <script type="application/ld+json">
+   {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "mulle-core",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, macOS, Windows",
+      "description": "Amalgamated C library: 30 C libraries (containers, Unicode, regex, HTTP parsing, time, lock-free concurrency) in one library with one envelope header.",
+      "programmingLanguage": "C",
+      "license": "https://opensource.org/licenses/BSD-3-Clause",
+      "url": "https://mulle-core.github.io/",
+      "codeRepository": "https://github.com/mulle-core/mulle-core",
+      "author": { "@type": "Person", "name": "Nat!" }
+   }
+   </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+   <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top">
+         <span class="brand-mark" aria-hidden="true">🌋</span>
+         <span class="brand-name">mulle-core</span>
+      </a>
+      <ul class="nav-links">
+         <li><a href="#why">Why</a></li>
+         <li><a href="#inside">Inside</a></li>
+         <li><a href="#quick-start">Quick start</a></li>
+         <li><a href="#concurrency">Concurrency</a></li>
+         <li><a href="#demos">Demos</a></li>
+         <li><a href="#guide">Developer guide</a></li>
+         <li><a href="#platforms">Platforms</a></li>
+      </ul>
+      <a class="btn btn-small btn-outline" href="https://github.com/mulle-core/mulle-core" rel="noopener">GitHub ↗</a>
+   </nav>
+</header>
+
+<main id="main">
+
+   <!-- ============ HERO ============ -->
+   <section class="hero" id="top">
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <p class="eyebrow">30&nbsp;modules · lock-free core · BSD-3-Clause</p>
+      <h1 class="hero-title">The C standard library<br>you wish existed.</h1>
+      <p class="hero-sub">
+         Containers, Unicode, regex, HTTP parsing, sockets, time and
+         <strong>lock-free concurrency</strong>, written in plain C and
+         tested on Linux, macOS and Windows.
+      </p>
+
+      <div class="hero-actions">
+         <a class="btn btn-primary" href="#quick-start">Get started</a>
+         <a class="btn btn-outline" href="https://www.mulle-kybernetik.com/de-re-mulle-core" rel="noopener">Read the developer guide</a>
+         <a class="btn btn-outline" href="https://github.com/mulle-core/mulle-core" rel="noopener">View on GitHub</a>
+      </div>
+
+      <pre class="hero-code"><code><span class="c">#include</span> &lt;mulle-core/mulle-core.h&gt;   <span class="cm">// everything</span>
+<span class="k">cc</span> main.c <span class="k">-lmulle-core</span>              <span class="cm">// one link</span></code></pre>
+
+      <ul class="stats" aria-label="Project statistics">
+         <li><span class="stat-num">30</span><span class="stat-label">modules</span></li>
+         <li><span class="stat-num">9</span><span class="stat-label">CI configurations</span></li>
+         <li><span class="stat-num">3</span><span class="stat-label">OS families</span></li>
+      </ul>
+   </section>
+
+   <!-- ============ WHY ============ -->
+   <section class="section" id="why">
+      <h2 class="section-title">Why mulle-core</h2>
+      <p class="section-lead">libc gives you strings, stdio and not much
+      more. mulle-core covers the things you would otherwise write yourself
+      or collect from a dozen different projects.</p>
+
+      <div class="split">
+         <div class="split-aside">
+            <p class="split-pull">Used in production by mulle-objc.</p>
+            <p class="split-note">mulle-core is the foundation of
+            <a href="https://mulle-objc.github.io/" rel="noopener">mulle-objc</a>,
+            an Objective-C that is statically linkable, unloadable and
+            real-time capable, and runs wherever C does.</p>
+         </div>
+
+         <ul class="feature-list">
+            <li><strong>Lock-free concurrency.</strong> A wait-free resizable
+            hashmap, a lock-free linked list and FIFOs, and a working solution
+            to the ABA problem. Classic mutexes and atomics are in mulle-thread
+            for when you need them.</li>
+            <li><strong>Fits your build.</strong> Use CMake
+            <code>FetchContent</code>, a git submodule or a plain clone. A
+            pinned snapshot builds with stock CMake and the compiler you
+            already have. You don't need mulle-sde or any code generation.</li>
+            <li><strong>Cross-platform.</strong> Ubuntu with GCC and Clang,
+            Windows with MSVC (Win32/Win64) and GCC, macOS with Clang and GCC,
+            all tested in CI.</li>
+            <li><strong>Documented for AI agents.</strong> Every module comes
+            with an AI-oriented reference that has keyword front-matter and the
+            C signatures inline. It's plain text, so it works just as well for
+            people with grep.</li>
+            <li><strong>BSD-3-Clause.</strong> Every module uses the same
+            license. Use it in commercial products, fork it, link it
+            statically or dynamically.</li>
+         </ul>
+      </div>
+   </section>
+
+   <!-- ============ INSIDE ============ -->
+   <section class="section" id="inside">
+      <h2 class="section-title">What's inside</h2>
+      <p class="section-lead">30 modules from the
+      <a href="https://github.com/mulle-c" rel="noopener">mulle-c</a>,
+      <a href="https://github.com/mulle-concurrent" rel="noopener">mulle-concurrent</a>
+      and <a href="https://github.com/mulle-core" rel="noopener">mulle-core</a>
+      GitHub organizations, combined into one distribution.</p>
+
+      <div class="module-group">
+         <h3 class="group-title">⚡ Lock-free concurrency</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">📶</span><a href="https://github.com/mulle-concurrent/mulle-concurrent">mulle-concurrent</a><p>Wait-free resizable hashmap, lock-free array &amp; set</p></article>
+            <article class="module"><span aria-hidden="true">🚮</span><a href="https://github.com/mulle-concurrent/mulle-aba">mulle-aba</a><p>Timestamp-based ABA problem solver</p></article>
+            <article class="module"><span aria-hidden="true">🔂</span><a href="https://github.com/mulle-concurrent/mulle-linkedlist">mulle-linkedlist</a><p>Wait- and lock-free linked list</p></article>
+            <article class="module"><span aria-hidden="true">🐍</span><a href="https://github.com/mulle-concurrent/mulle-fifo">mulle-fifo</a><p>Fixed-size producer/consumer FIFOs</p></article>
+            <article class="module"><span aria-hidden="true">🐛</span><a href="https://github.com/mulle-concurrent/mulle-multififo">mulle-multififo</a><p>Multi-producer/multi-consumer FIFOs</p></article>
+            <article class="module"><span aria-hidden="true">🔠</span><a href="https://github.com/mulle-concurrent/mulle-thread">mulle-thread</a><p>Threads, mutexes, TLS, atomics</p></article>
+                     </div>
+      </div>
+
+      <div class="module-group">
+         <h3 class="group-title">🗄️ Containers &amp; memory</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">🔄</span><a href="https://github.com/mulle-c/mulle-allocator">mulle-allocator</a><p>Flexible memory allocation scheme</p></article>
+            <article class="module"><span aria-hidden="true">🛄</span><a href="https://github.com/mulle-c/mulle-container">mulle-container</a><p>Arrays, hashtables, queue</p></article>
+            <article class="module"><span aria-hidden="true">🍫</span><a href="https://github.com/mulle-c/mulle-rbtree">mulle-rbtree</a><p>Red/black tree</p></article>
+            <article class="module"><span aria-hidden="true">🛅</span><a href="https://github.com/mulle-c/mulle-storage">mulle-storage</a><p>Memory management for tree nodes</p></article>
+            <article class="module"><span aria-hidden="true">🛄</span><a href="https://github.com/mulle-core/mulle-container-debug">mulle-container-debug</a><p>Debugging support for containers</p></article>
+            <article class="module"><span aria-hidden="true">🍫</span><a href="https://github.com/mulle-core/mulle-rbtree-debug">mulle-rbtree-debug</a><p>Debugging support for red/black trees</p></article>
+         </div>
+      </div>
+
+      <div class="module-group">
+         <h3 class="group-title">🔤 Text, unicode &amp; parsing</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">🈚</span><a href="https://github.com/mulle-c/mulle-unicode">mulle-unicode</a><p>Unicode ctype library</p></article>
+            <article class="module"><span aria-hidden="true">🔤</span><a href="https://github.com/mulle-c/mulle-utf">mulle-utf</a><p>UTF-8/16/32 analysis &amp; manipulation</p></article>
+            <article class="module"><span aria-hidden="true">📣</span><a href="https://github.com/mulle-c/mulle-regex">mulle-regex</a><p>Unicode regex library</p></article>
+            <article class="module"><span aria-hidden="true">🐌</span><a href="https://github.com/mulle-c/mulle-slug">mulle-slug</a><p>URL slug creation</p></article>
+            <article class="module"><span aria-hidden="true">🈷️</span><a href="https://github.com/mulle-c/mulle-url">mulle-url</a><p>URL character validation (scheme, host, path, …)</p></article>
+            <article class="module"><span aria-hidden="true">🈚</span><a href="https://github.com/mulle-c/mulle-http">mulle-http</a><p>Streaming HTTP request/response parser</p></article>
+         </div>
+      </div>
+
+      <div class="module-group">
+         <h3 class="group-title">🔢 Formatting, I/O &amp; time</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">🔢</span><a href="https://github.com/mulle-core/mulle-sprintf">mulle-sprintf</a><p>Extensible sprintf (stdarg + vararg)</p></article>
+            <article class="module"><span aria-hidden="true">🔢</span><a href="https://github.com/mulle-core/mulle-fprintf">mulle-fprintf</a><p>mulle-sprintf married to stdio</p></article>
+            <article class="module"><span aria-hidden="true">🧶</span><a href="https://github.com/mulle-core/mulle-dtostr">mulle-dtostr</a><p>Double-to-string conversion</p></article>
+            <article class="module"><span aria-hidden="true">⏪</span><a href="https://github.com/mulle-c/mulle-vararg">mulle-vararg</a><p>Varargs accessed in struct layout</p></article>
+            <article class="module"><span aria-hidden="true">↗️</span><a href="https://github.com/mulle-c/mulle-buffer">mulle-buffer</a><p>Growable char array &amp; stream, stack + heap</p></article>
+            <article class="module"><span aria-hidden="true">🇧🇿</span><a href="https://github.com/mulle-core/mulle-mmap">mulle-mmap</a><p>Memory-mapped file access</p></article>
+            <article class="module"><span aria-hidden="true">🔌</span><a href="https://github.com/mulle-core/mulle-dlfcn">mulle-dlfcn</a><p>Cross-platform dynamic loading</p></article>
+            <article class="module"><span aria-hidden="true">🕕</span><a href="https://github.com/mulle-core/mulle-time">mulle-time</a><p>timespec/timeval arithmetic</p></article>
+         </div>
+      </div>
+
+      <div class="module-group">
+         <h3 class="group-title">🧩 System &amp; networking</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">🧦</span><a href="https://github.com/mulle-core/mulle-socket">mulle-socket</a><p>Cross-platform TCP sockets (POSIX + Winsock)</p></article>
+            <article class="module"><span aria-hidden="true">🛸</span><a href="https://github.com/mulle-core/mulle-spawn">mulle-spawn</a><p>Run programs without fork, system or shell</p></article>
+         </div>
+      </div>
+
+      <div class="module-group">
+         <h3 class="group-title">🧱 Foundation</h3>
+         <div class="modules">
+            <article class="module"><span aria-hidden="true">🔀</span><a href="https://github.com/mulle-c/mulle-c11">mulle-c11</a><p>Cross-platform compiler glue</p></article>
+            <article class="module"><span aria-hidden="true">#️⃣</span><a href="https://github.com/mulle-c/mulle-data">mulle-data</a><p>Collection of hash functions</p></article>
+         </div>
+      </div>
+   </section>
+
+   <!-- ============ QUICK START ============ -->
+   <section class="section" id="quick-start">
+      <h2 class="section-title">Quick start</h2>
+      <p class="section-lead">Three steps. CMake downloads the mulle-core
+      sources into your build tree for you.</p>
+
+      <ol class="steps">
+         <li>
+            <h3><span class="step-num">1</span>Fetch it in CMake</h3>
+            <pre><code><span class="c">include</span>( FetchContent)
+
+<span class="c">set</span>( MULLE__CORE_TAG <span class="s">"master"</span> CACHE STRING <span class="s">"branch or tag to fetch mulle-core from"</span>)
+FetchContent_Declare( MULLE__CORE
+   GIT_REPOSITORY https://github.com/mulle-core/mulle-core.git
+   GIT_TAG        <span class="s">"${MULLE__CORE_TAG}"</span>)
+FetchContent_MakeAvailable( MULLE__CORE)
+
+add_executable( hello-core src/main.c)
+target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
+         </li>
+         <li>
+            <h3><span class="step-num">2</span>Write code</h3>
+            <pre><code><span class="c">#include</span> &lt;mulle-core/mulle-core.h&gt;
+<span class="c">#include</span> &lt;stdio.h&gt;
+
+<span class="k">int</span> main( <span class="k">void</span>)
+{
+   <span class="k">void</span>   *item;
+
+   <span class="cm">// array and buffer are freed automatically when the block exits</span>
+   mulle_pointerarray_do( array)
+   {
+      mulle_pointerarray_add( array, <span class="s">"one"</span>);
+      mulle_pointerarray_add( array, <span class="s">"two"</span>);
+
+      mulle_buffer_do( buffer)
+      {
+         mulle_pointerarray_for( array, item)
+         {
+            mulle_buffer_add_string( buffer, item);
+            mulle_buffer_add_string( buffer, <span class="s">"\n"</span>);
+         }
+         mulle_buffer_make_string( buffer);
+         fputs( mulle_buffer_get_string( buffer), stdout);
+      }
+   }
+
+   <span class="k">return</span>( <span class="k">0</span>);
+}</code></pre>
+         </li>
+         <li>
+            <h3><span class="step-num">3</span>Build and run</h3>
+            <pre><code><span class="k">cmake</span> -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug
+<span class="k">cmake</span> --build build-debug --parallel
+./build-debug/hello-core</code></pre>
+         </li>
+      </ol>
+
+      <p class="section-note">The first configure clones mulle-core into
+      <code>build-debug/_deps</code>. To pin a release, pass
+      <code>-DMULLE__CORE_TAG=0.9.0</code>. <strong>Develop with
+      <code>Debug</code> and ship with <code>Release</code>:</strong> a
+      <code>Debug</code> build keeps <code>assert()</code> active, so mistakes
+      abort right where they happen. If you'd rather keep the sources in your
+      own tree, use a submodule or a plain clone and point
+      <code>add_subdirectory</code> at it. The README lists
+      <a href="https://github.com/mulle-core/mulle-core#add" rel="noopener">all installation methods</a>.</p>
+
+      <aside class="next-step" id="guide">
+         <h3>Next: the developer guide</h3>
+         <p><em>De Re mulle-core</em> starts with an empty directory and ends
+         with working code. You set up the tools, learn how the allocator
+         works, and then go through each library with a short example you can
+         run. All C examples were compiled and run against a freshly built
+         <code>libmulle-core.a</code>.</p>
+         <p><a class="btn btn-primary" href="https://www.mulle-kybernetik.com/de-re-mulle-core" rel="noopener">Read the developer guide</a></p>
+      </aside>
+   </section>
+
+   <!-- ============ CONCURRENCY ============ -->
+   <section class="section section-feature" id="concurrency">
+      <div class="feature-glow" aria-hidden="true"></div>
+      <h2 class="section-title">Lock-free concurrency</h2>
+      <p class="section-lead">The resizable hashmap is <strong>wait-free</strong>:
+      every operation finishes in a bounded number of steps, whatever the
+      other threads are doing. There are no locks, so nothing to spin on and
+      nothing to deadlock.</p>
+
+      <div class="feature-grid">
+         <pre class="feature-code"><code><span class="c">#include</span> &lt;mulle-core/mulle-core.h&gt;
+<span class="c">#include</span> &lt;assert.h&gt;
+<span class="c">#include</span> &lt;string.h&gt;
+
+<span class="k">int</span> main( <span class="k">void</span>)
+{
+   <span class="k">struct</span> mulle_concurrent_hashmap   map;
+   <span class="k">char</span>                              *key = <span class="s">"mulle-core"</span>;
+   <span class="k">void</span>                              *value;
+   <span class="k">intptr_t</span>                          hash;
+
+   mulle_aba_init( NULL);               <span class="cm">// one-time setup</span>
+   mulle_aba_register();                <span class="cm">// per thread</span>
+
+   mulle_concurrent_hashmap_init( &amp;map, <span class="k">0</span>, NULL);
+
+   <span class="cm">// wait-free from any thread:</span>
+   <span class="cm">// the hash is the key, so it must be a legal one: 0 is NO_HASH</span>
+   hash  = (<span class="k">intptr_t</span>) mulle_hash( key, strlen( key));
+   <span class="k">if</span>( ! hash)
+      hash = <span class="k">1</span>;
+   mulle_concurrent_hashmap_register( &amp;map, hash, key);
+   value = mulle_concurrent_hashmap_lookup( &amp;map, hash);
+   assert( value == key);
+
+   mulle_concurrent_hashmap_done( &amp;map);
+   mulle_aba_unregister();
+   mulle_aba_done();
+   <span class="k">return</span>( <span class="k">0</span>);
+}</code></pre>
+
+         <ul class="feature-list">
+            <li><strong>Wait-free hashmap.</strong> Register, insert, lookup
+            and remove are all wait-free.</li>
+            <li><strong>Lock-free linked list &amp; FIFOs.</strong> Queues for
+            single and multiple producers and consumers.</li>
+            <li><strong>ABA solved.</strong> <a href="https://github.com/mulle-concurrent/mulle-aba" rel="noopener">mulle-aba</a>
+            uses per-thread timestamps to make reuse-after-free detectable, on
+            every supported platform.</li>
+            <li><strong>Resizing without blocking.</strong> The map migrates
+            to a larger table atomically while callers keep working.</li>
+            <li><strong>Just C.</strong> No runtime and no garbage collector,
+            and it works with any allocator.</li>
+         </ul>
+      </div>
+   </section>
+
+   <!-- ============ DEMOS ============ -->
+   <section class="section" id="demos">
+      <h2 class="section-title">Demos</h2>
+      <p class="section-lead">Seven terminal programs, each built so that a
+      constituent does the heavy lifting instead of making a token appearance.
+      They show, with numbers, what each part of mulle-core is good at. Every
+      demo is self-contained and builds mulle-core from source.</p>
+
+      <div class="cards">
+         <article class="card card-spotlight">
+            <span class="card-emoji" aria-hidden="true">🧵</span>
+            <h3><a href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">mredis — a Redis-shaped server</a></h3>
+            <p>Speaks RESP2 over TCP with a small command set
+            (<code>PING</code>, <code>SET</code>, <code>GET</code>, <code>DEL</code>,
+            <code>EXISTS</code>, <code>QUIT</code>). Each connection gets its
+            own thread, and all threads share one lock-free hash table. Redis
+            is single-threaded by design; mredis takes the opposite approach,
+            which <code>mulle-concurrent</code> makes practical, with
+            <code>mulle-socket</code> handling the networking. It reaches
+            <strong>10.2M requests/s</strong> with 64 connections and
+            <strong>4.1×</strong> the throughput of redis-server at eight
+            threads, because it scales with the number of cores while Redis
+            stays on one.</p>
+            <p class="card-tags">mulle-concurrent · mulle-thread · mulle-socket · mulle-spawn</p>
+            <p class="guide-actions">
+            <a class="btn btn-primary" href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">See the demos</a>
+            </p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🔎</span>
+            <h3>multigrep</h3>
+            <p>Parallel text search over memory-mapped files: one producer,
+            N workers and a drain loop, with no locks on the hot path.</p>
+            <p class="card-tags">mulle-mmap · mulle-concurrent · mulle-multififo · mulle-utf</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">📊</span>
+            <h3>logtop</h3>
+            <p>A live terminal dashboard for a log stream that shows counts,
+            a histogram and throughput.</p>
+            <p class="card-tags">mulle-concurrent · mulle-multififo · mulle-data</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🪟</span>
+            <h3>windowrb</h3>
+            <p>Keeps many short-lived ordered sets over a stream, so the cost
+            of creating and tearing down an rbtree shows up in the numbers
+            instead of disappearing as a rounding error.</p>
+            <p class="card-tags">mulle-rbtree · mulle-storage · mulle-arena</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🔗</span>
+            <h3>urltoolkit</h3>
+            <p>Validates, cross-checks and rewrites URLs with two independent
+            parsers, and sorts out the cases where they disagree.</p>
+            <p class="card-tags">mulle-url · mulle-http · mulle-regex · mulle-slug</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">📋</span>
+            <h3>blackboard</h3>
+            <p>Seven processes publish through one shared 256&nbsp;KiB region.
+            The mmap holds a heap, locks and FIFOs, and a note can be freed by
+            a different process than the one that allocated it.</p>
+            <p class="card-tags">mulle-mmapallocator · mulle-mmap · mulle-spawn · mulle-fifo</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">#️⃣</span>
+            <h3>hashspace</h3>
+            <p>In the concurrent maps the hash <em>is</em> the key, so it
+            matters which hash values are legal. hashspace runs both maps and
+            shows what each one accepts.</p>
+            <p class="card-tags">mulle-concurrent · mulle-aba</p>
+         </article>
+      </div>
+   </section>
+
+   <!-- ============ PLATFORMS ============ -->
+   <section class="section" id="platforms">
+      <h2 class="section-title">CI-tested across platforms</h2>
+      <div class="platform-grid">
+         <table class="matrix">
+            <caption class="sr-only">Supported platform and compiler matrix</caption>
+            <thead>
+               <tr><th>OS</th><th>Compiler</th><th>Flags</th></tr>
+            </thead>
+            <tbody>
+               <tr><td>Ubuntu</td><td>GCC</td><td></td></tr>
+               <tr><td>Ubuntu</td><td>GCC</td><td>-O3</td></tr>
+               <tr><td>Ubuntu</td><td>GCC</td><td>Out-of-source</td></tr>
+               <tr><td>Ubuntu</td><td>Clang</td><td>Debug</td></tr>
+               <tr><td>Windows</td><td>MSVC Win32</td><td></td></tr>
+               <tr><td>Windows</td><td>MSVC Win64</td><td></td></tr>
+               <tr><td>Windows</td><td>GCC</td><td></td></tr>
+               <tr><td>macOS</td><td>Clang</td><td></td></tr>
+               <tr><td>macOS</td><td>GCC</td><td></td></tr>
+            </tbody>
+         </table>
+      </div>
+   </section>
+
+</main>
+
+<footer class="site-footer">
+   <div class="footer-grid">
+      <div>
+         <p class="footer-brand">🌋 mulle-core</p>
+         <p>Amalgamated C library by
+         <a href="https://mulle-kybernetik.com/weblog" rel="noopener">Nat! (Mulle kybernetiK)</a>.</p>
+      </div>
+      <div>
+         <p class="footer-heading">Resources</p>
+         <ul>
+            <li><a href="https://github.com/mulle-core/mulle-core" rel="noopener">GitHub repository</a></li>
+            <li><a href="https://www.mulle-kybernetik.com/de-re-mulle-core" rel="noopener">Developer guide</a></li>
+            <li><a href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">Demos (mredis, …)</a></li>
+            <li><a href="https://github.com/mulle-core" rel="noopener">mulle-core org</a></li>
+            <li><a href="https://github.com/mulle-core/mulle-core#constituents" rel="noopener">Constituent projects</a></li>
+            <li><a href="llms.txt">llms.txt for AI agents</a></li>
+         </ul>
+      </div>
+      <div>
+         <p class="footer-heading">License</p>
+         <p><a href="https://opensource.org/licenses/BSD-3-Clause" rel="noopener">BSD-3-Clause</a></p>
+      </div>
+   </div>
+   <p class="footer-note">Documented for people and for AI agents. 🤖</p>
+</footer>
+
+</body>
+</html>
