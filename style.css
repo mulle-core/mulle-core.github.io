@@ -600,31 +600,43 @@ pre code { font-size: inherit; }
    max-width: var(--maxw);
    margin: 0 auto;
    display: grid;
-   grid-template-columns: 2fr 1fr 1fr;
-   gap: 2rem;
+   grid-template-columns: 1fr 1.7fr;
+   gap: 2.5rem;
+   align-items: start;
 }
 .footer-brand { font-weight: 700; margin: 0 0 0.4rem; }
-.footer-heading {
-   margin: 0 0 0.6rem;
-   color: var(--muted);
-   font-size: 0.8rem;
-   text-transform: uppercase;
-   letter-spacing: 0.08em;
-}
-.site-footer ul { list-style: none; margin: 0; padding: 0; }
-.site-footer li { margin-bottom: 0.4rem; }
-.site-footer p { color: var(--muted); font-size: 0.92rem; margin: 0 0 0.4rem; }
-.site-footer a { color: var(--muted); }
-.site-footer a:hover { color: var(--text); }
+.footer-intro p { color: var(--muted); font-size: 0.92rem; margin: 0 0 0.4rem; }
+.footer-intro a { color: var(--muted); }
+.footer-intro a:hover { color: var(--text); }
 
-.footer-note {
-   max-width: var(--maxw);
-   margin: 2.5rem auto 0;
-   padding-top: 1.5rem;
-   border-top: 1px solid var(--border);
-   color: var(--faint);
-   font-size: 0.85rem;
+.footer-links {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+   gap: 0.6rem;
 }
+.footer-card {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 0.65rem;
+   padding: 0.7rem 0.9rem;
+   background: var(--panel);
+   border: 1px solid var(--border);
+   border-radius: var(--radius);
+   color: var(--muted);
+   font-size: 0.9rem;
+   text-decoration: none;
+   transition: transform 0.18s ease, border-color 0.18s ease,
+               color 0.18s ease, box-shadow 0.18s ease;
+}
+.footer-card:hover {
+   transform: translateY(-2px);
+   border-color: var(--border-strong);
+   color: var(--text);
+   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+.footer-card-arrow { color: var(--faint); transition: color 0.18s ease; }
+.footer-card:hover .footer-card-arrow { color: var(--lava-1); }
 
 /* ------------------------------------------------------------- responsive */
 @media (max-width: 860px) {
