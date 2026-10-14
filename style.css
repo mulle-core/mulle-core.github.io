@@ -114,6 +114,8 @@ code { font-size: 0.9em; }
 }
 .nav-links a:hover { color: var(--text); }
 
+.nav > .btn { margin-left: auto; }
+
 /* ----------------------------------------------------------------- buttons */
 .btn {
    display: inline-block;
