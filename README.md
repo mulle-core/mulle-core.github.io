@@ -15,6 +15,9 @@ amalgamated C library.
 | `index.html`                    | Single-page landing (semantic HTML + JSON-LD) |
 | `style.css`                     | All styling and animations (dark "lava" theme)|
 | `images/mulle-core-preview.jpg` | Social preview card (1200×675)                |
+| `LICENSE`                       | BSD-3-Clause (carried over from the old site) |
+| `.nojekyll`                     | Disables Jekyll so the static HTML is served  |
+| `.github/workflows/semgrep.yml` | Semgrep CI                                    |
 | `README.md`                     | This file                                     |
 
 ## Preview locally
@@ -26,18 +29,21 @@ and the relative links (`style.css`, `images/…`) resolve from the file system.
 
 For an organization GitHub Pages site, this repository must be named
 `mulle-core.github.io` under the `mulle-core` org, and Pages is served from
-the `main` branch root by default — no workflow needed.
+the `master` branch root by default — no workflow needed.
+
+The repository must be **public** to publish on the free org plan. This
+history is unrelated to the original site's history (which is preserved on the
+`legacy-site` branch); publish with a force push.
 
 ```sh
-git init
-git add index.html style.css images README.md
-git commit -m "Initial mulle-core landing page"
-git branch -M main
-git remote add origin git@github.com:mulle-core/mulle-core.github.io.git
-git push -u origin main
+git add index.html style.css images README.md LICENSE .nojekyll \
+        .github/workflows/semgrep.yml
+git commit -m "mulle-core landing page"
+git push --force github master
 ```
 
-If the repo already exists, just commit and push to `main`.
+The pre-existing site (`index.md`, `_config.yml`, `LICENSE`, semgrep workflow)
+is kept on the `legacy-site` branch.
 
 ## Keeping content fresh
 
