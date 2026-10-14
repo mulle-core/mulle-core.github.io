@@ -16,13 +16,16 @@
    <meta property="og:type" content="website">
    <meta property="og:url" content="https://mulle-core.github.io/">
    <meta property="og:site_name" content="mulle-core">
-   <meta name="twitter:card" content="summary">
+   <meta property="og:image" content="https://mulle-core.github.io/images/mulle-core-preview.jpg">
+   <meta property="og:image:width" content="1200">
+   <meta property="og:image:height" content="675">
+   <meta property="og:image:alt" content="mulle-core — the C standard library you wish existed">
+   <meta name="twitter:card" content="summary_large_image">
+   <meta name="twitter:site" content="@mulle_nat">
    <meta name="twitter:title" content="mulle-core — The C standard library you wish existed">
    <meta name="twitter:description" content="30 C libraries, one header, one link flag. Lock-free concurrency included.">
-
-   <!-- LLM-friendly pointers -->
-   <link rel="llms" href="llms.txt" title="llms.txt for mulle-core">
-   <link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt for mulle-core">
+   <meta name="twitter:image" content="https://mulle-core.github.io/images/mulle-core-preview.jpg">
+   <meta name="twitter:image:alt" content="mulle-core — the C standard library you wish existed">
 
    <link rel="stylesheet" href="style.css">
    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
@@ -39,6 +42,7 @@
       "programmingLanguage": "C",
       "license": "https://opensource.org/licenses/BSD-3-Clause",
       "url": "https://mulle-core.github.io/",
+      "image": "https://mulle-core.github.io/images/mulle-core-preview.jpg",
       "codeRepository": "https://github.com/mulle-core/mulle-core",
       "author": { "@type": "Person", "name": "Nat!" }
    }
@@ -89,12 +93,6 @@
 
       <pre class="hero-code"><code><span class="c">#include</span> &lt;mulle-core/mulle-core.h&gt;   <span class="cm">// everything</span>
 <span class="k">cc</span> main.c <span class="k">-lmulle-core</span>              <span class="cm">// one link</span></code></pre>
-
-      <ul class="stats" aria-label="Project statistics">
-         <li><span class="stat-num">30</span><span class="stat-label">modules</span></li>
-         <li><span class="stat-num">9</span><span class="stat-label">CI configurations</span></li>
-         <li><span class="stat-num">3</span><span class="stat-label">OS families</span></li>
-      </ul>
    </section>
 
    <!-- ============ WHY ============ -->
@@ -471,7 +469,6 @@ target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
             <li><a href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">Demos (mredis, …)</a></li>
             <li><a href="https://github.com/mulle-core" rel="noopener">mulle-core org</a></li>
             <li><a href="https://github.com/mulle-core/mulle-core#constituents" rel="noopener">Constituent projects</a></li>
-            <li><a href="llms.txt">llms.txt for AI agents</a></li>
          </ul>
       </div>
       <div>

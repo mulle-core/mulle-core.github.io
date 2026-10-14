@@ -284,35 +284,6 @@ pre code { font-size: inherit; }
 .v  { color: #7dd3fc;       }   /* variables     */
 .cm { color: var(--faint);  }   /* comments      */
 
-/* ------------------------------------------------------------------ stats */
-.stats {
-   position: relative;
-   list-style: none;
-   display: flex;
-   justify-content: center;
-   gap: 3rem;
-   margin: 3.5rem 0 0;
-   padding: 0;
-   flex-wrap: wrap;
-}
-.stats li { text-align: center; }
-.stat-num {
-   display: block;
-   font-family: var(--font-mono);
-   font-size: 2rem;
-   font-weight: 700;
-   background: linear-gradient(135deg, var(--lava-1), var(--lava-3));
-   -webkit-background-clip: text;
-   background-clip: text;
-   color: transparent;
-}
-.stat-label {
-   color: var(--faint);
-   font-size: 0.8rem;
-   text-transform: uppercase;
-   letter-spacing: 0.08em;
-}
-
 /* ----------------------------------------------------------------- section */
 .section {
    max-width: var(--maxw);
@@ -661,7 +632,6 @@ pre code { font-size: inherit; }
    .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
    .nav-links { display: none; }
    .hero { padding-top: 4.5rem; }
-   .stats { gap: 2rem; }
 }
 
 /* --------------------------------------------------------- reduced motion */
