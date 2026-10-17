@@ -4,14 +4,14 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   <title>mulle-core — The C standard library you wish existed</title>
+   <title>mulle-core — The convenient C library you've always been looking for</title>
    <meta name="description" content="mulle-core combines 30 C libraries for containers, Unicode, regex, HTTP parsing, time and lock-free concurrency into one library with one header and one link flag. Add it to any CMake project.">
    <meta name="keywords" content="C, C library, lock-free, wait-free, concurrency, hashmap, ABA problem, unicode, UTF-8, regex, amalgamation, cross-platform, CMake, socket, process spawning, mulle-core, mulle-c, mulle-concurrent">
    <meta name="robots" content="index,follow">
    <meta name="author" content="Mulle kybernetiK (Nat!)">
 
    <!-- social -->
-   <meta property="og:title" content="mulle-core — The C standard library you wish existed">
+   <meta property="og:title" content="mulle-core — The convenient C library you've always been looking for">
    <meta property="og:description" content="30 C libraries, one header, one link flag. Lock-free concurrency included.">
    <meta property="og:type" content="website">
    <meta property="og:url" content="https://mulle-core.github.io/">
@@ -19,13 +19,13 @@
    <meta property="og:image" content="https://mulle-core.github.io/images/mulle-core-preview.jpg">
    <meta property="og:image:width" content="1200">
    <meta property="og:image:height" content="675">
-   <meta property="og:image:alt" content="mulle-core — the C standard library you wish existed">
+   <meta property="og:image:alt" content="mulle-core — the convenient C library you've always been looking for">
    <meta name="twitter:card" content="summary_large_image">
    <meta name="twitter:site" content="@mulle_nat">
-   <meta name="twitter:title" content="mulle-core — The C standard library you wish existed">
+   <meta name="twitter:title" content="mulle-core — The convenient C library you've always been looking for">
    <meta name="twitter:description" content="30 C libraries, one header, one link flag. Lock-free concurrency included.">
    <meta name="twitter:image" content="https://mulle-core.github.io/images/mulle-core-preview.jpg">
-   <meta name="twitter:image:alt" content="mulle-core — the C standard library you wish existed">
+   <meta name="twitter:image:alt" content="mulle-core — the convenient C library you've always been looking for">
 
    <link rel="stylesheet" href="style.css">
    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
@@ -78,11 +78,11 @@
    <section class="hero" id="top">
       <div class="hero-glow" aria-hidden="true"></div>
 
-      <p class="eyebrow">30&nbsp;modules · lock-free core · BSD-3-Clause</p>
-      <h1 class="hero-title">The C standard library<br>you wish existed.</h1>
+      <h1 class="hero-title">The convenient C library<br>you've always been looking for.</h1>
       <p class="hero-sub">
          Containers, Unicode, regex, HTTP parsing, sockets, time and
-         <strong>lock-free concurrency</strong>, written in plain C and
+         <strong>lock-free concurrency</strong>, auto-reclaimed temporary
+         strings and arrays, written in plain C and
          tested on Linux, macOS and Windows.
       </p>
 
@@ -113,6 +113,18 @@
          </div>
 
          <ul class="feature-list">
+            <li><strong>Auto-reclaimed strings and arrays.</strong> Temporary
+            buffers and containers start on the stack and are cleaned up when
+            the block ends. They grow onto the heap when they need to, but you
+            never call <code>free</code>.</li>
+            <li><strong>The stack does the work.</strong> Most calls are
+            inline, so the cheap case stays cheap. Only data that outgrows its
+            stack storage ever reaches the heap.</li>
+            <li><strong>No guessing at buffer sizes.</strong> No
+            <code>char buf[256]</code>, no <code>snprintf</code> length dance,
+            no size constants to keep in sync. Write to the buffer and let it
+            grow — or give it a fixed size and it reports overflow instead of
+            running past the end.</li>
             <li><strong>Lock-free concurrency.</strong> A wait-free resizable
             hashmap, a lock-free linked list and FIFOs, and a working solution
             to the ABA problem. Classic mutexes and atomics are in mulle-thread
@@ -142,7 +154,10 @@
       <a href="https://github.com/mulle-c" rel="noopener">mulle-c</a>,
       <a href="https://github.com/mulle-concurrent" rel="noopener">mulle-concurrent</a>
       and <a href="https://github.com/mulle-core" rel="noopener">mulle-core</a>
-      GitHub organizations, combined into one distribution.</p>
+      GitHub organizations, combined into one distribution.
+      mulle-core is an amalgamation, so you build and link one library
+      instead of thirty. Each module is also a standalone project, if you
+      only want one of them.</p>
 
       <div class="module-group">
          <h3 class="group-title">⚡ Lock-free concurrency</h3>
@@ -234,27 +249,35 @@ target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
          <li>
             <h3><span class="step-num">2</span>Write code</h3>
             <pre><code><span class="c">#include</span> &lt;mulle-core/mulle-core.h&gt;
-<span class="c">#include</span> &lt;stdio.h&gt;
+<span class="c">#include</span> &lt;string.h&gt;
+
+<span class="k">static</span> <span class="k">int</span>   compare_strings( <span class="k">void</span> **a, <span class="k">void</span> **b, <span class="k">void</span> *userinfo)
+{
+   MULLE_C_UNUSED( userinfo);
+   <span class="k">return</span>( strcmp( (<span class="k">char</span> *) *a, (<span class="k">char</span> *) *b));
+}
 
 <span class="k">int</span> main( <span class="k">void</span>)
 {
    <span class="k">void</span>   *item;
 
-   <span class="cm">// array and buffer are freed automatically when the block exits</span>
-   mulle_pointerarray_do( array)
+   <span class="cm">// the array copies each string, and everything is freed when the block exits</span>
+   mulle_array_do( array, &amp;mulle_container_keycallback_copied_cstring)
    {
-      mulle_pointerarray_add( array, <span class="s">"one"</span>);
-      mulle_pointerarray_add( array, <span class="s">"two"</span>);
+      mulle_array_add( array, <span class="s">"VfL"</span>);
+      mulle_array_add( array, <span class="s">"Bochum"</span>);
 
       mulle_buffer_do( buffer)
       {
-         mulle_pointerarray_for( array, item)
-         {
-            mulle_buffer_add_string( buffer, item);
-            mulle_buffer_add_string( buffer, <span class="s">"\n"</span>);
-         }
-         mulle_buffer_make_string( buffer);
-         fputs( mulle_buffer_get_string( buffer), stdout);
+         mulle_buffer_sprintf( buffer, <span class="s">"%zu"</span>, mulle_array_get_count( array) + 1846);
+         mulle_array_add( array, mulle_buffer_get_string( buffer));
+      }
+
+      mulle_array_qsort_r_inline( array, compare_strings, NULL);
+
+      mulle_array_for_reverse( array, item)
+      {
+         mulle_printf( <span class="s">"%s\n"</span>, item);
       }
    }
 
