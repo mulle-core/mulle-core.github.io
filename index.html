@@ -61,9 +61,9 @@
       <ul class="nav-links">
          <li><a href="#why">Why</a></li>
          <li><a href="#inside">Inside</a></li>
+         <li><a href="#demos">Demos</a></li>
          <li><a href="#quick-start">Quick start</a></li>
          <li><a href="#concurrency">Concurrency</a></li>
-         <li><a href="#demos">Demos</a></li>
          <li><a href="#guide">Developer guide</a></li>
          <li><a href="#platforms">Platforms</a></li>
          <li><a href="#links">Links</a></li>
@@ -226,6 +226,88 @@
       </div>
    </section>
 
+   <!-- ============ DEMOS ============ -->
+   <section class="section" id="demos">
+      <h2 class="section-title">Demos</h2>
+      <p class="section-lead">Seven terminal programs, each built so that a
+      constituent does the heavy lifting instead of making a token appearance.
+      They show, with numbers, what each part of mulle-core is good at. Every
+      demo is self-contained and builds mulle-core from source.</p>
+
+      <div class="cards">
+         <article class="card card-spotlight">
+            <span class="card-emoji" aria-hidden="true">🧵</span>
+            <h3><a href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">mredis — a Redis-shaped server</a></h3>
+            <p>Speaks RESP2 over TCP with a small command set
+            (<code>PING</code>, <code>SET</code>, <code>GET</code>, <code>DEL</code>,
+            <code>EXISTS</code>, <code>QUIT</code>). Each connection gets its
+            own thread, and all threads share one lock-free hash table. Redis
+            is single-threaded by design; mredis takes the opposite approach,
+            which <code>mulle-concurrent</code> makes practical, with
+            <code>mulle-socket</code> handling the networking. It reaches
+            <strong>10.2M requests/s</strong> with 64 connections and
+            <strong>4.1×</strong> the throughput of redis-server at eight
+            threads, because it scales with the number of cores while Redis
+            stays on one.</p>
+            <p class="card-tags">mulle-concurrent · mulle-thread · mulle-socket · mulle-spawn</p>
+            <p class="guide-actions">
+            <a class="btn btn-primary" href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">See the demos</a>
+            </p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🔎</span>
+            <h3>multigrep</h3>
+            <p>Parallel text search over memory-mapped files: one producer,
+            N workers and a drain loop, with no locks on the hot path.</p>
+            <p class="card-tags">mulle-mmap · mulle-concurrent · mulle-multififo · mulle-utf</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">📊</span>
+            <h3>logtop</h3>
+            <p>A live terminal dashboard for a log stream that shows counts,
+            a histogram and throughput.</p>
+            <p class="card-tags">mulle-concurrent · mulle-multififo · mulle-data</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🪟</span>
+            <h3>windowrb</h3>
+            <p>Keeps many short-lived ordered sets over a stream, so the cost
+            of creating and tearing down an rbtree shows up in the numbers
+            instead of disappearing as a rounding error.</p>
+            <p class="card-tags">mulle-rbtree · mulle-storage · mulle-arena</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">🔗</span>
+            <h3>urltoolkit</h3>
+            <p>Validates, cross-checks and rewrites URLs with two independent
+            parsers, and sorts out the cases where they disagree.</p>
+            <p class="card-tags">mulle-url · mulle-http · mulle-regex · mulle-slug</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">📋</span>
+            <h3>blackboard</h3>
+            <p>Seven processes publish through one shared 256&nbsp;KiB region.
+            The mmap holds a heap, locks and FIFOs, and a note can be freed by
+            a different process than the one that allocated it.</p>
+            <p class="card-tags">mulle-mmapallocator · mulle-mmap · mulle-spawn · mulle-fifo</p>
+         </article>
+
+         <article class="card">
+            <span class="card-emoji" aria-hidden="true">#️⃣</span>
+            <h3>hashspace</h3>
+            <p>In the concurrent maps the hash <em>is</em> the key, so it
+            matters which hash values are legal. hashspace runs both maps and
+            shows what each one accepts.</p>
+            <p class="card-tags">mulle-concurrent · mulle-aba</p>
+         </article>
+      </div>
+   </section>
+
    <!-- ============ QUICK START ============ -->
    <section class="section" id="quick-start">
       <h2 class="section-title">Quick start</h2>
@@ -367,88 +449,6 @@ target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
             <li><strong>Just C.</strong> No runtime and no garbage collector,
             and it works with any allocator.</li>
          </ul>
-      </div>
-   </section>
-
-   <!-- ============ DEMOS ============ -->
-   <section class="section" id="demos">
-      <h2 class="section-title">Demos</h2>
-      <p class="section-lead">Seven terminal programs, each built so that a
-      constituent does the heavy lifting instead of making a token appearance.
-      They show, with numbers, what each part of mulle-core is good at. Every
-      demo is self-contained and builds mulle-core from source.</p>
-
-      <div class="cards">
-         <article class="card card-spotlight">
-            <span class="card-emoji" aria-hidden="true">🧵</span>
-            <h3><a href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">mredis — a Redis-shaped server</a></h3>
-            <p>Speaks RESP2 over TCP with a small command set
-            (<code>PING</code>, <code>SET</code>, <code>GET</code>, <code>DEL</code>,
-            <code>EXISTS</code>, <code>QUIT</code>). Each connection gets its
-            own thread, and all threads share one lock-free hash table. Redis
-            is single-threaded by design; mredis takes the opposite approach,
-            which <code>mulle-concurrent</code> makes practical, with
-            <code>mulle-socket</code> handling the networking. It reaches
-            <strong>10.2M requests/s</strong> with 64 connections and
-            <strong>4.1×</strong> the throughput of redis-server at eight
-            threads, because it scales with the number of cores while Redis
-            stays on one.</p>
-            <p class="card-tags">mulle-concurrent · mulle-thread · mulle-socket · mulle-spawn</p>
-            <p class="guide-actions">
-            <a class="btn btn-primary" href="https://github.com/mulle-core/mulle-core-demo" rel="noopener">See the demos</a>
-            </p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">🔎</span>
-            <h3>multigrep</h3>
-            <p>Parallel text search over memory-mapped files: one producer,
-            N workers and a drain loop, with no locks on the hot path.</p>
-            <p class="card-tags">mulle-mmap · mulle-concurrent · mulle-multififo · mulle-utf</p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">📊</span>
-            <h3>logtop</h3>
-            <p>A live terminal dashboard for a log stream that shows counts,
-            a histogram and throughput.</p>
-            <p class="card-tags">mulle-concurrent · mulle-multififo · mulle-data</p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">🪟</span>
-            <h3>windowrb</h3>
-            <p>Keeps many short-lived ordered sets over a stream, so the cost
-            of creating and tearing down an rbtree shows up in the numbers
-            instead of disappearing as a rounding error.</p>
-            <p class="card-tags">mulle-rbtree · mulle-storage · mulle-arena</p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">🔗</span>
-            <h3>urltoolkit</h3>
-            <p>Validates, cross-checks and rewrites URLs with two independent
-            parsers, and sorts out the cases where they disagree.</p>
-            <p class="card-tags">mulle-url · mulle-http · mulle-regex · mulle-slug</p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">📋</span>
-            <h3>blackboard</h3>
-            <p>Seven processes publish through one shared 256&nbsp;KiB region.
-            The mmap holds a heap, locks and FIFOs, and a note can be freed by
-            a different process than the one that allocated it.</p>
-            <p class="card-tags">mulle-mmapallocator · mulle-mmap · mulle-spawn · mulle-fifo</p>
-         </article>
-
-         <article class="card">
-            <span class="card-emoji" aria-hidden="true">#️⃣</span>
-            <h3>hashspace</h3>
-            <p>In the concurrent maps the hash <em>is</em> the key, so it
-            matters which hash values are legal. hashspace runs both maps and
-            shows what each one accepts.</p>
-            <p class="card-tags">mulle-concurrent · mulle-aba</p>
-         </article>
       </div>
    </section>
 
