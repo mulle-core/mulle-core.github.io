@@ -408,6 +408,10 @@ pre code { font-size: inherit; }
 }
 .split-note code { color: var(--text); }
 
+/* full-width intro used by the Why section */
+.why-intro { margin: 0 0 2.5rem; }
+.why-intro .split-pull { max-width: none; }
+
 /* --------------------------------------------------- next-step callout (F) */
 .next-step {
    margin-top: 2.5rem;
@@ -555,6 +559,10 @@ pre code { font-size: inherit; }
    font-size: 0.96rem;
 }
 .feature-list strong { color: var(--text); }
+.feature-list-two {
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.25rem 3rem;
+}
 
 /* ---------------------------------------------------------------- platforms */
 .platform-grid {
@@ -598,6 +606,7 @@ pre code { font-size: inherit; }
 /* ------------------------------------------------------------- responsive */
 @media (max-width: 860px) {
    .feature-grid { grid-template-columns: 1fr; }
+   .feature-list-two { grid-template-columns: 1fr; }
    .split { grid-template-columns: 1fr; gap: 2rem; }
    .split-pull { max-width: none; }
    .nav-links { display: none; }

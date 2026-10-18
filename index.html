@@ -83,7 +83,7 @@
          Containers, Unicode, regex, HTTP parsing, sockets, time and
          <strong>lock-free concurrency</strong>, auto-reclaimed temporary
          strings and arrays, written in plain C and
-         tested on Linux, macOS and Windows.
+         tested on Linux (glibc and musl), macOS and Windows.
       </p>
 
       <div class="hero-actions">
@@ -103,48 +103,48 @@
       more. mulle-core covers the things you would otherwise write yourself
       or collect from a dozen different projects.</p>
 
-      <div class="split">
-         <div class="split-aside">
-            <p class="split-pull">Used in production by mulle-objc.</p>
-            <p class="split-note">mulle-core is the foundation of
-            <a href="https://mulle-objc.github.io/" rel="noopener">mulle-objc</a>,
-            an Objective-C that is statically linkable, unloadable and
-            real-time capable, and runs wherever C does.</p>
-         </div>
-
-         <ul class="feature-list">
-            <li><strong>Auto-reclaimed strings and arrays.</strong> Temporary
-            buffers and containers start on the stack and are cleaned up when
-            the block ends. They grow onto the heap when they need to, but you
-            never call <code>free</code>.</li>
-            <li><strong>The stack does the work.</strong> Most calls are
-            inline, so the cheap case stays cheap. Only data that outgrows its
-            stack storage ever reaches the heap.</li>
-            <li><strong>No guessing at buffer sizes.</strong> No
-            <code>char buf[256]</code>, no <code>snprintf</code> length dance,
-            no size constants to keep in sync. Write to the buffer and let it
-            grow — or give it a fixed size and it reports overflow instead of
-            running past the end.</li>
-            <li><strong>Lock-free concurrency.</strong> A wait-free resizable
-            hashmap, a lock-free linked list and FIFOs, and a working solution
-            to the ABA problem. Classic mutexes and atomics are in mulle-thread
-            for when you need them.</li>
-            <li><strong>Fits your build.</strong> Use CMake
-            <code>FetchContent</code>, a git submodule or a plain clone. A
-            pinned snapshot builds with stock CMake and the compiler you
-            already have. You don't need mulle-sde or any code generation.</li>
-            <li><strong>Cross-platform.</strong> Ubuntu with GCC and Clang,
-            Windows with MSVC (Win32/Win64) and GCC, macOS with Clang and GCC,
-            all tested in CI.</li>
-            <li><strong>Documented for AI agents.</strong> Every module comes
-            with an AI-oriented reference that has keyword front-matter and the
-            C signatures inline. It's plain text, so it works just as well for
-            people with grep.</li>
-            <li><strong>BSD-3-Clause.</strong> Every module uses the same
-            license. Use it in commercial products, fork it, link it
-            statically or dynamically.</li>
-         </ul>
+      <div class="why-intro">
+         <p class="split-pull">Used in production by mulle-objc.</p>
+         <p class="split-note">mulle-core is the foundation of
+         <a href="https://mulle-objc.github.io/" rel="noopener">mulle-objc</a>,
+         an Objective-C that is statically linkable, unloadable and
+         real-time capable, and runs wherever C does.</p>
       </div>
+
+      <ul class="feature-list feature-list-two">
+         <li><strong>Auto-reclaimed strings and arrays.</strong> Temporary
+         buffers and containers start on the stack and are cleaned up when
+         the block ends. They grow onto the heap when they need to, but you
+         never call <code>free</code>.</li>
+         <li><strong>The stack does the work.</strong> Most calls are
+         inline, so the cheap case stays cheap. Only data that outgrows its
+         stack storage ever reaches the heap.</li>
+         <li><strong>No guessing at buffer sizes.</strong> No
+         <code>char buf[256]</code>, no <code>snprintf</code> length dance,
+         no size constants to keep in sync. Write to the buffer and let it
+         grow — or give it a fixed size and it reports overflow instead of
+         running past the end.</li>
+         <li><strong>Lock-free concurrency.</strong> A wait-free resizable
+         hashmap, a lock-free linked list and FIFOs, and a working solution
+         to the ABA problem. Classic mutexes and atomics are in mulle-thread
+         for when you need them.</li>
+         <li><strong>Fits your build.</strong> Use CMake
+         <code>FetchContent</code>, a git submodule or a plain clone. A
+         pinned snapshot builds with stock CMake and the compiler you
+         already have.</li>
+         <li><strong>Cross-platform.</strong> Works with both glibc and musl
+         on Linux, plus Windows with MSVC (Win32/Win64) and GCC, and macOS
+         with Clang and GCC — the compiler matrix below runs in CI. It also
+         builds against Cosmopolitan libc, for a single binary that runs on
+         Linux, macOS, Windows and the BSDs.</li>
+         <li><strong>Documented for AI agents.</strong> Every module comes
+         with an AI-oriented reference that has keyword front-matter and the
+         C signatures inline. It's plain text, so it works just as well for
+         people with grep.</li>
+         <li><strong>BSD-3-Clause.</strong> Every module uses the same
+         license. Use it in commercial products, fork it, link it
+         statically or dynamically.</li>
+      </ul>
    </section>
 
    <!-- ============ INSIDE ============ -->
@@ -398,7 +398,7 @@ target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
    <!-- ============ CONCURRENCY ============ -->
    <section class="section section-feature" id="concurrency">
       <div class="feature-glow" aria-hidden="true"></div>
-      <h2 class="section-title">Lock-free concurrency</h2>
+      <h2 class="section-title">Lock-free concurrency example</h2>
       <p class="section-lead">The resizable hashmap is <strong>wait-free</strong>:
       every operation finishes in a bounded number of steps, whatever the
       other threads are doing. There are no locks, so nothing to spin on and
