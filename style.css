@@ -565,38 +565,36 @@ pre code { font-size: inherit; }
 }
 
 /* ---------------------------------------------------------------- platforms */
-.platform-grid {
-   display: grid;
-   grid-template-columns: 1fr;
-   gap: 1.5rem;
-   align-items: start;
-}
+.platform-list { display: grid; gap: 0.7rem; }
 
-.matrix {
-   width: 100%;
-   border-collapse: collapse;
+.platform {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   gap: 0.5rem;
    background: var(--panel);
    border: 1px solid var(--border);
    border-radius: var(--radius);
-   overflow: hidden;
-   font-size: 0.92rem;
+   padding: 0.75rem 1rem;
 }
-.matrix th, .matrix td {
-   text-align: left;
-   padding: 0.7rem 1.1rem;
-   border-bottom: 1px solid var(--border);
+
+.platform-os {
+   color: var(--text);
+   font-weight: 600;
+   min-width: 6.5rem;
 }
-.matrix thead th {
-   background: var(--bg-soft);
-   color: var(--muted);
-   font-size: 0.8rem;
-   text-transform: uppercase;
-   letter-spacing: 0.06em;
+
+.chip {
+   font-family: var(--font-mono);
+   font-size: 0.78rem;
+   color: var(--lava-1);
+   border: 1px solid var(--border-strong);
+   border-radius: 999px;
+   padding: 0.12rem 0.6rem;
 }
-.matrix tbody tr:last-child td { border-bottom: none; }
-.matrix tbody tr:hover td { background: var(--panel-hover); }
-.matrix td:first-child { color: var(--text); font-weight: 600; }
-.matrix td:nth-child(2) { font-family: var(--font-mono); color: var(--lava-1); }
+
+.platform-note { margin: 0.2rem 0 0; color: var(--faint); font-size: 0.86rem; }
+.platform-note code { color: var(--lava-2); }
 
 /* ------------------------------------------------------------------ footer */
 .site-footer {

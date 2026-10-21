@@ -134,7 +134,7 @@
          already have.</li>
          <li><strong>Cross-platform.</strong> Works with both glibc and musl
          on Linux, plus Windows with MSVC (Win32/Win64) and GCC, and macOS
-         with Clang and GCC — the compiler matrix below runs in CI, TinyCC
+          with Clang and GCC — the compiler list below runs in CI, TinyCC
          included. It also
          builds against Cosmopolitan libc, for a single binary that runs on
          Linux, macOS, Windows and the BSDs.</li>
@@ -456,24 +456,28 @@ target_link_libraries( hello-core PRIVATE mulle-core)</code></pre>
    <!-- ============ PLATFORMS ============ -->
    <section class="section" id="platforms">
       <h2 class="section-title">CI-tested across platforms</h2>
-      <div class="platform-grid">
-         <table class="matrix">
-            <caption class="sr-only">Supported platform and compiler matrix</caption>
-            <thead>
-               <tr><th>OS</th><th>Compiler</th><th>Flags</th></tr>
-            </thead>
-            <tbody>
-               <tr><td>Ubuntu</td><td>GCC</td><td></td></tr>
-               <tr><td>Ubuntu</td><td>GCC</td><td>-O3</td></tr>
-               <tr><td>Ubuntu</td><td>Clang</td><td>Debug</td></tr>
-               <tr><td>Ubuntu</td><td>TCC</td><td></td></tr>
-               <tr><td>Windows</td><td>MSVC Win32</td><td></td></tr>
-               <tr><td>Windows</td><td>MSVC Win64</td><td></td></tr>
-               <tr><td>Windows</td><td>GCC</td><td></td></tr>
-               <tr><td>macOS</td><td>Clang</td><td></td></tr>
-               <tr><td>macOS</td><td>GCC</td><td></td></tr>
-            </tbody>
-         </table>
+      <p class="section-lead">CI builds and tests mulle-core with these compilers:</p>
+
+      <div class="platform-list">
+         <div class="platform">
+            <span class="platform-os">Ubuntu</span>
+            <span class="chip">GCC</span>
+            <span class="chip">Clang</span>
+            <span class="chip">TinyCC</span>
+         </div>
+         <div class="platform">
+            <span class="platform-os">Windows</span>
+            <span class="chip">MSVC Win32</span>
+            <span class="chip">MSVC Win64</span>
+            <span class="chip">GCC</span>
+         </div>
+         <div class="platform">
+            <span class="platform-os">macOS</span>
+            <span class="chip">Clang</span>
+            <span class="chip">GCC</span>
+         </div>
+         <p class="platform-note">Built in release (<code>-O3</code>) and debug
+         configurations.</p>
       </div>
    </section>
 
